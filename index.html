@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bake Boss – Cakes & Cookies</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Custom cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- Background -->
+    <div id="bg"></div>
+
+    <!-- Pulsing rings -->
+    <div
+      class="ring"
+      style="
+        width: 600px;
+        height: 600px;
+        left: 50%;
+        top: 50%;
+        animation-duration: 5s;
+        animation-delay: 0s;
+      "
+    ></div>
+    <div
+      class="ring"
+      style="
+        width: 600px;
+        height: 600px;
+        left: 50%;
+        top: 50%;
+        animation-duration: 5s;
+        animation-delay: 1.6s;
+      "
+    ></div>
+    <div
+      class="ring"
+      style="
+        width: 600px;
+        height: 600px;
+        left: 50%;
+        top: 50%;
+        animation-duration: 5s;
+        animation-delay: 3.2s;
+      "
+    ></div>
+
+    <!-- Decorative swirl SVGs -->
+    <svg
+      id="swirl-left"
+      viewBox="0 0 300 400"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M80 380 C80 280 200 280 200 180 C200 80 60 80 60 0"
+        stroke="#c49a6c"
+        stroke-width="1.5"
+        stroke-dasharray="6 4"
+        fill="none"
+      />
+      <circle cx="80" cy="380" r="5" fill="#c49a6c" />
+      <path
+        d="M120 350 C160 290 240 260 220 160 C200 60 100 50 110 0"
+        stroke="#8b5e3c"
+        stroke-width="1"
+        fill="none"
+      />
+    </svg>
+    <svg
+      id="swirl-right"
+      viewBox="0 0 300 400"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M80 380 C80 280 200 280 200 180 C200 80 60 80 60 0"
+        stroke="#c49a6c"
+        stroke-width="1.5"
+        stroke-dasharray="6 4"
+        fill="none"
+      />
+      <circle cx="80" cy="380" r="5" fill="#c49a6c" />
+      <path
+        d="M120 350 C160 290 240 260 220 160 C200 60 100 50 110 0"
+        stroke="#8b5e3c"
+        stroke-width="1"
+        fill="none"
+      />
+    </svg>
+
+    <!-- Orbiting cookie icon -->
+    <svg
+      id="cookie-orbit"
+      viewBox="0 0 52 52"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="26"
+        cy="26"
+        r="24"
+        fill="#4a2c1a"
+        stroke="#d4a853"
+        stroke-width="1.5"
+      />
+      <circle cx="16" cy="20" r="3" fill="#d4a853" />
+      <circle cx="30" cy="16" r="2" fill="#d4a853" />
+      <circle cx="22" cy="32" r="2.5" fill="#d4a853" />
+      <circle cx="34" cy="30" r="2" fill="#d4a853" />
+      <circle cx="26" cy="22" r="1.5" fill="#8b5e3c" />
+      <circle cx="38" cy="20" r="1.5" fill="#8b5e3c" />
+    </svg>
+
+    <!-- Main content -->
+    <div id="stage">
+      <div class="badge">✦ Est. 2025 &nbsp;·&nbsp; Coming Soon ✦</div>
+
+      <div class="logo-wrap">
+        <div class="logo-name">Bake <span>Boss</span></div>
+      </div>
+
+      <div class="tagline">— Cakes &amp; Cookies —</div>
+
+      <div class="launch-wrap" id="launchWrap">
+        <div class="launch-text">
+          <span class="word">Launching&nbsp;</span
+          ><span class="word">Soon</span>
+        </div>
+        <!-- glitter dots placed by JS -->
+      </div>
+
+      <div class="strip">
+        <span class="strip-label">Baking in progress</span>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <span class="strip-label">72%</span>
+      </div>
+
+      <div class="notify">
+        <div class="notify-inner">
+          <span class="notify-text">Be the first to know when we open</span>
+          <button class="notify-btn" onclick="handleNotify(this)">
+            Notify Me 🍪
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Steam wisps at bottom -->
+    <svg
+      class="steam"
+      style="left: 20%; width: 120px"
+      viewBox="0 0 60 200"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M30 200 Q10 150 30 100 Q50 50 30 0"
+        stroke="#c49a6c"
+        stroke-width="1.5"
+        fill="none"
+        style="animation-delay: 0.3s"
+      />
+    </svg>
+    <svg
+      class="steam"
+      style="left: 50%; width: 100px; transform: translateX(-50%)"
+      viewBox="0 0 60 200"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M30 200 Q50 150 30 100 Q10 50 30 0"
+        stroke="#c49a6c"
+        stroke-width="1.5"
+        fill="none"
+        style="animation-delay: 1.1s"
+      />
+    </svg>
+    <svg
+      class="steam"
+      style="right: 18%; width: 120px"
+      viewBox="0 0 60 200"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M30 200 Q10 150 30 100 Q50 50 30 0"
+        stroke="#c49a6c"
+        stroke-width="1.5"
+        fill="none"
+        style="animation-delay: 2s"
+      />
+    </svg>
+
+    <script src="script.js"></script>
+  </body>
+</html>
