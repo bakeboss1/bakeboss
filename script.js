@@ -4,8 +4,8 @@
 
 // ── CONFIG ──────────────────────────────────────────────────
 // Replace with your actual WhatsApp number (with country code, no +)
-const WHATSAPP_NUMBER = "919016988150"; // e.g. 919876543210
-const INSTAGRAM_URL = "https://www.instagram.com/bake__boss/"; // Update this
+const WHATSAPP_NUMBER = "919999999999"; // e.g. 919876543210
+const INSTAGRAM_URL = "https://instagram.com/bakeboss"; // Update this
 
 // WhatsApp link helper
 const waLink = (msg) =>
@@ -229,18 +229,28 @@ function initLightbox() {
   });
 }
 
-function openLightbox(imgSrc, title, caption) {
+function openLightbox(imgSrc, categoryLabel, categoryKey) {
   const lb = document.getElementById("lightbox");
   const img = document.getElementById("lightbox-img");
-  const lbTitle = document.getElementById("lightbox-title");
-  const lbCaption = document.getElementById("lightbox-caption");
+  const lbCat = document.getElementById("lightbox-category");
   const orderBtn = document.getElementById("lightbox-order");
 
   img.src = imgSrc;
-  img.alt = title;
-  lbTitle.textContent = title;
-  lbCaption.textContent = caption || "";
-  orderBtn.href = waLink(`Hi Bake Boss, I want to order ${title}`);
+  img.alt = "Bake Boss " + categoryLabel;
+
+  // Show the category name as a subtle label (e.g. "CAKES")
+  if (lbCat) lbCat.textContent = categoryLabel.toUpperCase();
+
+  // Generic order link — category-specific prefill
+  const msgMap = {
+    cake: "Hi Bake Boss, I'd like to order a cake!",
+    brownie: "Hi Bake Boss, I'd like to order brownies!",
+    cookie: "Hi Bake Boss, I'd like to order cookies!",
+    dry_cake: "Hi Bake Boss, I'd like to order dry cakes!",
+  };
+  orderBtn.href = waLink(
+    msgMap[categoryKey] || "Hi Bake Boss, I want to place an order",
+  );
 
   lb.classList.add("open");
   document.body.style.overflow = "hidden";
@@ -301,42 +311,39 @@ function initCarouselButtons(wrapper) {
 function renderSkeletons(containerId, count = 4) {
   const container = document.getElementById(containerId);
   if (!container) return;
+  // Photo-only skeletons — no text rows beneath
   container.innerHTML = Array.from(
     { length: count },
-    () => `
-    <div class="skeleton-card">
-      <div class="skeleton skeleton-img"></div>
-      <div class="skeleton skeleton-text" style="width:75%"></div>
-      <div class="skeleton skeleton-text short"></div>
-      <div class="skeleton skeleton-text" style="height:30px;margin-top:8px;border-radius:8px"></div>
-    </div>
-  `,
+    () => '<div class="skeleton skeleton-photo"></div>',
   ).join("");
 }
 
-// ── RENDER A GALLERY ITEM CARD ────────────────────────────────
-function createItemCard(item) {
+// ── RENDER A PHOTO-ONLY CARD (no title / caption / order button) ──
+function createPhotoCard(item) {
   const div = document.createElement("div");
-  div.className = "item-card";
+  div.className = "photo-card";
+  div.setAttribute("role", "button");
+  div.setAttribute("aria-label", "View photo");
+
+  // Map category key → readable label for lightbox
+  const categoryLabels = {
+    cake: "Cakes",
+    brownie: "Brownies",
+    cookie: "Cookies",
+    dry_cake: "Dry Cakes",
+  };
+  const label = categoryLabels[item.category] || item.category || "";
+
   div.innerHTML = `
-    <div class="item-img-wrap" role="button" aria-label="View ${item.title}">
-      <img src="${item.image_url}" alt="${item.title}" loading="lazy">
-      <div class="img-overlay">
-        <div class="overlay-zoom">🔍</div>
-      </div>
-    </div>
-    <div class="item-info">
-      <div class="item-title">${item.title}</div>
-      <div class="item-caption">${item.caption || ""}</div>
-      <a class="btn-order" href="${waLink(`Hi Bake Boss, I want to order ${item.title}`)}" target="_blank" rel="noopener">
-        <span>🛒</span> Order This
-      </a>
+    <img src="${item.image_url}" alt="Bake Boss ${label}" loading="lazy">
+    <div class="img-overlay">
+      <div class="overlay-zoom">🔍</div>
     </div>
   `;
 
-  // Lightbox on image click
-  div.querySelector(".item-img-wrap").addEventListener("click", () => {
-    openLightbox(item.image_url, item.title, item.caption);
+  // Open lightbox on click — passes category label instead of title/caption
+  div.addEventListener("click", () => {
+    openLightbox(item.image_url, label, item.category);
   });
 
   return div;
@@ -354,7 +361,8 @@ function renderCarousel(containerId, items) {
     return;
   }
 
-  items.forEach((item) => carousel.appendChild(createItemCard(item)));
+  // Photo-only cards — title/caption/order button live at section level
+  items.forEach((item) => carousel.appendChild(createPhotoCard(item)));
   initCarouselDrag(carousel);
   initCarouselButtons(carousel.closest(".carousel-wrapper"));
 }
@@ -374,16 +382,9 @@ function renderMenuCategory(catId, items) {
     const div = document.createElement("div");
     div.className = "menu-item";
     div.innerHTML = `
-  <span class="menu-name">
-    ${item.name}
-    ${
-      item.quantity_label
-        ? `<small style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.45);font-weight:400;margin-top:2px;">${item.quantity_label}</small>`
-        : ""
-    }
-  </span>
-  <span class="menu-price">₹${Number(item.price).toLocaleString("en-IN")}</span>
-`;
+      <span class="menu-name">${item.name}</span>
+      <span class="menu-price">₹${Number(item.price).toLocaleString("en-IN")}</span>
+    `;
     grid.appendChild(div);
   });
 }
