@@ -264,7 +264,7 @@ function renderMenuCategory(catId, items) {
         : ""
     }
   </span>
-  <span class="menu-price">₹${Number(item.price).toLocaleString("en-IN")}</span>
+  <span class="menu-price">₹${item.price.toLocaleString("en-IN")}</span>
 `;
     grid.appendChild(div);
   });
