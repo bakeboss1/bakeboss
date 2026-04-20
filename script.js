@@ -4,7 +4,7 @@
 
 // ── CONFIG ──────────────────────────────────────────────────
 // Replace with your actual WhatsApp number (with country code, no +)
-const WHATSAPP_NUMBER = "919876543210"; // e.g. 919876543210
+const WHATSAPP_NUMBER = "919016988150"; // e.g. 919876543210
 const INSTAGRAM_URL = "https://instagram.com/bakeboss"; // Update this
 
 // WhatsApp link helper
